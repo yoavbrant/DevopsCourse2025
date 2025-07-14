@@ -1,17 +1,11 @@
-FROM python:3.9-slim-buster
-
+FROM python:3.8.2-slim
+ENV FLASK_APP=flaskr \
+    FLASK_ENV=development
 WORKDIR /app
-
-COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
+COPY . /app
+RUN pip install --upgrade pip \
+    && pip install --editable .
+RUN flask init-db
 EXPOSE 5000
-
-ENV FLASK_APP=flaskr
-
-ENV FLASK_ENV=development
-
 CMD ["flask", "run", "--host=0.0.0.0"]
+    
